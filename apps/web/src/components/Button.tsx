@@ -17,7 +17,7 @@ export function Button({
   className,
   ...props
 }: ButtonProps) {
-  const baseClasses = 'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
+  const baseClasses = 'font-medium rounded-lg transition-all-smooth focus:outline-none focus:ring-2 focus:ring-offset-2 transform hover:scale-105 active:scale-95';
 
   const variants = {
     primary: 'bg-gradient-gold text-black font-semibold hover:opacity-90 focus:ring-gold shadow-lg shadow-gold/20',
@@ -68,7 +68,9 @@ export function Button({
           Loading...
         </span>
       ) : (
-        children
+        <span className="transition-transform duration-200 group-hover:translate-x-1">
+          {children}
+        </span>
       )}
     </button>
   );

@@ -45,15 +45,17 @@ export function Home() {
 
       {/* Sales Showcase Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-2">
-            Recent <span className="text-gold">Success Stories</span>
-          </h2>
-          <div className="w-20 h-1 bg-gradient-gold mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg">See our latest successful transactions</p>
-        </div>
+          <div className="text-center mb-12 animate-fade-in-up">
+            <h2 className="text-4xl font-bold text-gray-900 mb-2">
+              Recent <span className="text-gold">Success Stories</span>
+            </h2>
+            <div className="w-20 h-1 bg-gradient-gold mx-auto mb-4"></div>
+            <p className="text-gray-600 text-lg">See our latest successful transactions</p>
+          </div>
         
-        <SalesSlideshow />
+        <div className="animate-fade-in-scale animate-delay-200">
+          <SalesSlideshow />
+        </div>
       </div>
 
       {/* About Section */}
@@ -142,8 +144,8 @@ export function Home() {
           </h2>
           <div className="w-20 h-1 bg-gradient-gold mx-auto mb-12"></div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border-2 border-gold/10">
+              <div className="grid md:grid-cols-3 gap-8">
+                <div className="text-center bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border-2 border-gold/10 hover-lift animate-fade-in-up animate-delay-100">
               <div className="bg-gradient-gold w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
                   className="w-8 h-8 text-black"
@@ -187,8 +189,8 @@ export function Home() {
               </p>
             </div>
 
-            <div className="text-center bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border-2 border-gold/10">
-              <div className="bg-gradient-gold w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="text-center bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow border-2 border-gold/10 hover-lift animate-fade-in-up animate-delay-300">
+              <div className="bg-gradient-gold w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-slow">
                 <svg
                   className="w-8 h-8 text-black"
                   fill="none"

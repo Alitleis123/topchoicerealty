@@ -10,13 +10,13 @@ export function ListingCard({ listing }: ListingCardProps) {
   return (
     <Link
       to={`/listings/${listing._id}`}
-      className="block bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all hover:-translate-y-1 border-2 border-gold/10"
+      className="block bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all hover:-translate-y-1 border-2 border-gold/10 hover-lift group"
     >
       <div className="relative h-52 overflow-hidden">
         <img
           src={listing.imageUrls[0]}
           alt={listing.title}
-          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
         <span

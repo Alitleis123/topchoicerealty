@@ -22,6 +22,24 @@ export interface Listing {
   imageUrls: string[];
   status: 'active' | 'pending' | 'sold';
   agentId: User | string;
+  customerId?: string;
+  soldDate?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Customer {
+  _id: string;
+  agentId: string;
+  listingId?: string | Listing;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address?: string;
+  purchaseDate?: string;
+  purchasePrice?: number;
+  notes?: string;
   createdAt: string;
   updatedAt: string;
 }

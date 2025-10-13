@@ -9,18 +9,26 @@ const SEED_PASSWORD = 'test12345';
 const agents = [
   {
     email: 'john.doe@topchoicerealty.com',
-    name: 'Top Choice Realty Team',
+    name: 'John Doe',
     phone: '929-488-3666',
     photoUrl: '/src/assets/topchoicerealtypfp.jpg',
-    bio: 'Our passion is Our clients. 🏠 Serving New York and New Jersey with dedication and expertise. Committed to finding you the perfect home.',
+    bio: 'With over 8 years of experience in the New York real estate market, John specializes in luxury waterfront properties and historic homes. A Staten Island native, he understands the unique character of each neighborhood and helps clients navigate complex transactions with ease. John\'s attention to detail and personalized approach have earned him recognition as a top producer, consistently ranking in the top 5% of agents in the borough.',
     role: 'agent' as const,
   },
   {
     email: 'jane.lee@topchoicerealty.com',
-    name: 'Top Choice Realty',
+    name: 'Jane Lee',
     phone: '929-488-3666',
     photoUrl: '/src/assets/topchoicerealtypfp.jpg',
-    bio: 'Expert real estate services across NY & NJ. Our passion is helping families find their dream homes. Professional, dedicated, and client-focused.',
+    bio: 'Jane brings a fresh perspective to real estate with her background in interior design and her passion for helping families find their perfect home. Specializing in first-time homebuyers and young professionals, she makes the complex process of purchasing a home feel approachable and exciting. Her clients appreciate her patience, thoroughness, and ability to explain every step of the journey. Jane is fluent in English and Korean, serving a diverse community across Staten Island and Brooklyn.',
+    role: 'agent' as const,
+  },
+  {
+    email: 'ola.tleis@topchoicerealty.com',
+    name: 'Ola Tleis',
+    phone: '929-488-3666',
+    photoUrl: '/src/assets/topchoicerealtypfp.jpg',
+    bio: 'Ola is a dedicated real estate professional with a deep understanding of the Staten Island and Brooklyn markets. Born and raised in the area, she has an intimate knowledge of local neighborhoods, schools, and community amenities. Ola specializes in investment properties and helps clients build wealth through strategic real estate decisions. Her analytical approach, combined with her warm personality, makes her a trusted advisor for both seasoned investors and first-time buyers. She\'s also a certified negotiation expert.',
     role: 'agent' as const,
   },
 ];

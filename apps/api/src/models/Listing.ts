@@ -12,6 +12,8 @@ export interface IListing extends Document {
   imageUrls: string[];
   status: 'active' | 'pending' | 'sold';
   agentId: mongoose.Types.ObjectId;
+  customerId?: mongoose.Types.ObjectId;
+  soldDate?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -78,6 +80,14 @@ const listingSchema = new Schema<IListing>(
       ref: 'User',
       required: true,
       index: true,
+    },
+    customerId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Customer',
+      index: true,
+    },
+    soldDate: {
+      type: Date,
     },
   },
   {

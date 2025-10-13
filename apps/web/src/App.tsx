@@ -8,9 +8,11 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { Home } from './routes/Home';
 import { Listings } from './routes/Listings';
 import { ListingDetail } from './routes/ListingDetail';
+import { Agents } from './routes/Agents';
 import { Login } from './routes/Login';
 import { Dashboard } from './routes/Dashboard';
 import { Profile } from './routes/Profile';
+import { Customers } from './routes/Customers';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,11 +35,13 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/listings" element={<Listings />} />
                 <Route path="/listings/:id" element={<ListingDetail />} />
+                <Route path="/agents" element={<Agents />} />
                 <Route path="/login" element={<Login />} />
 
                 {/* Protected routes */}
                 <Route element={<ProtectedRoute />}>
                   <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/customers" element={<Customers />} />
                   <Route path="/profile" element={<Profile />} />
                 </Route>
 

@@ -3,11 +3,12 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import { agentListingsApi } from '../lib/api';
+import { agentListingsApi, customersApi } from '../lib/api';
 import { createListingSchema, CreateListingInput } from '../lib/schemas';
 import { Button } from '../components/Button';
 import { FormInput } from '../components/FormInput';
 import { FormTextarea } from '../components/FormTextarea';
+import { CustomerCaptureModal } from '../components/CustomerCaptureModal';
 import { formatPrice, formatDate, getStatusBadgeColor } from '../lib/utils';
 import { useAuth } from '../lib/auth';
 import type { Listing } from '../lib/types';
@@ -18,6 +19,7 @@ export function Dashboard() {
   const queryClient = useQueryClient();
   const [isCreating, setIsCreating] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [soldModalListing, setSoldModalListing] = useState<Listing | null>(null);
 
   const { data, isLoading } = useQuery({
     queryKey: ['agent-listings'],
@@ -55,6 +57,19 @@ export function Dashboard() {
     onSuccess: () => {
       toast.success('Status updated!');
       queryClient.invalidateQueries({ queryKey: ['agent-listings'] });
+    },
+  });
+
+  const createCustomerMutation = useMutation({
+    mutationFn: (data: any) => customersApi.create(data),
+    onSuccess: () => {
+      toast.success('Customer saved! Listing marked as sold.');
+      queryClient.invalidateQueries({ queryKey: ['agent-listings'] });
+      queryClient.invalidateQueries({ queryKey: ['customers'] });
+      setSoldModalListing(null);
+    },
+    onError: () => {
+      toast.error('Failed to save customer');
     },
   });
 
@@ -113,6 +128,28 @@ export function Dashboard() {
     if (confirm('Are you sure you want to delete this listing?')) {
       deleteMutation.mutate(id);
     }
+  };
+
+  const handleStatusChange = (listing: Listing, newStatus: string) => {
+    if (newStatus === 'sold') {
+      // Open modal to capture customer details
+      setSoldModalListing(listing);
+    } else {
+      // Just update status normally
+      updateStatusMutation.mutate({
+        id: listing._id,
+        status: newStatus as any,
+      });
+    }
+  };
+
+  const handleCustomerCapture = (data: any) => {
+    if (!soldModalListing) return;
+
+    createCustomerMutation.mutate({
+      ...data,
+      listingId: soldModalListing._id,
+    });
   };
 
   if (isLoading) {
@@ -319,12 +356,7 @@ export function Dashboard() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <select
                       value={listing.status}
-                      onChange={(e) =>
-                        updateStatusMutation.mutate({
-                          id: listing._id,
-                          status: e.target.value as any,
-                        })
-                      }
+                      onChange={(e) => handleStatusChange(listing, e.target.value)}
                       className={`px-3 py-1 rounded-full text-xs font-bold uppercase cursor-pointer ${getStatusBadgeColor(
                         listing.status
                       )}`}
@@ -356,6 +388,18 @@ export function Dashboard() {
               </tbody>
             </table>
           </div>
+        )}
+
+        {/* Customer Capture Modal */}
+        {soldModalListing && (
+          <CustomerCaptureModal
+            isOpen={!!soldModalListing}
+            onClose={() => setSoldModalListing(null)}
+            onSubmit={handleCustomerCapture}
+            listingTitle={soldModalListing.title}
+            listingPrice={soldModalListing.price}
+            isLoading={createCustomerMutation.isPending}
+          />
         )}
       </div>
     </div>

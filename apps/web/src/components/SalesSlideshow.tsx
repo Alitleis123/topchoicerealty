@@ -34,15 +34,17 @@ export function SalesSlideshow() {
   };
 
   return (
-    <div className="relative group">
-      <div className="relative overflow-hidden rounded-2xl border-4 border-gold shadow-2xl">
+    <div className="relative group animate-fade-in-scale">
+      <div className="relative overflow-hidden rounded-2xl border-4 border-gold shadow-2xl hover-glow">
         {/* Images */}
         <div className="relative h-[500px]">
           {salesImages.map((image, index) => (
             <div
               key={index}
-              className={`absolute inset-0 transition-opacity duration-1000 ${
-                index === currentIndex ? 'opacity-100' : 'opacity-0'
+              className={`absolute inset-0 transition-all duration-1000 ease-in-out transform ${
+                index === currentIndex 
+                  ? 'opacity-100 scale-100' 
+                  : 'opacity-0 scale-105'
               }`}
             >
               <img
@@ -57,7 +59,7 @@ export function SalesSlideshow() {
         {/* Navigation Arrows */}
         <button
           onClick={goToPrevious}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-gold rounded-full p-3 opacity-0 group-hover:opacity-100 transition-opacity"
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-gold rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110"
           aria-label="Previous image"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,7 +69,7 @@ export function SalesSlideshow() {
 
         <button
           onClick={goToNext}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-gold rounded-full p-3 opacity-0 group-hover:opacity-100 transition-opacity"
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-gold rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110"
           aria-label="Next image"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,7 +83,7 @@ export function SalesSlideshow() {
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`transition-all ${
+              className={`transition-all duration-300 hover:scale-125 ${
                 index === currentIndex
                   ? 'w-8 h-3 bg-gold'
                   : 'w-3 h-3 bg-white/60 hover:bg-white/80'

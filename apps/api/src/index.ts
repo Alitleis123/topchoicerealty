@@ -15,6 +15,8 @@ import authRoutes from './routes/auth.js';
 import listingsPublicRoutes from './routes/listings.public.js';
 import listingsAgentRoutes from './routes/listings.agent.js';
 import inquiriesRoutes from './routes/inquiries.js';
+import customersRoutes from './routes/customers.js';
+import agentsPublicRoutes from './routes/agents.public.js';
 
 const app = express();
 
@@ -81,7 +83,9 @@ app.get('/api/health', (_req: Request, res: Response) => {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/listings', listingsPublicRoutes);
+app.use('/api/agents', agentsPublicRoutes);
 app.use('/api/agent/listings', listingsAgentRoutes);
+app.use('/api/agent/customers', customersRoutes);
 app.use('/api/inquiries', inquiriesRoutes);
 
 // Error handling

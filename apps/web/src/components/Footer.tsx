@@ -17,26 +17,31 @@ export function Footer() {
             <p className="text-sm text-gold mt-2">📞 929-488-3666</p>
           </div>
 
-          <div>
-            <h4 className="text-gold text-sm font-semibold mb-4 tracking-wider">QUICK LINKS</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a href="/" className="hover:text-gold transition-colors">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="/listings" className="hover:text-gold transition-colors">
-                  Browse Listings
-                </a>
-              </li>
-              <li>
-                <a href="/login" className="hover:text-gold transition-colors">
-                  Agent Login
-                </a>
-              </li>
-            </ul>
-          </div>
+              <div>
+                <h4 className="text-gold text-sm font-semibold mb-4 tracking-wider">QUICK LINKS</h4>
+                <ul className="space-y-2 text-sm">
+                  <li>
+                    <a href="/" className="hover:text-gold transition-colors">
+                      Home
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/listings" className="hover:text-gold transition-colors">
+                      Browse Listings
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/agents" className="hover:text-gold transition-colors">
+                      Meet Our Agents
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/login" className="hover:text-gold transition-colors">
+                      Agent Login
+                    </a>
+                  </li>
+                </ul>
+              </div>
 
           <div>
             <h4 className="text-gold text-sm font-semibold mb-4 tracking-wider">CONTACT US</h4>

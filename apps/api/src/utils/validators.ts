@@ -24,6 +24,7 @@ export const updateListingSchema = createListingSchema.partial();
 
 export const updateListingStatusSchema = z.object({
   status: z.enum(['active', 'pending', 'sold']),
+  customerId: z.string().optional(),
 });
 
 // Query schemas
@@ -53,6 +54,27 @@ export const createInquirySchema = z.object({
   message: z.string().min(10, 'Message must be at least 10 characters').max(2000),
 });
 
+// Customer schemas
+export const createCustomerSchema = z.object({
+  firstName: z.string().min(2, 'First name must be at least 2 characters').max(50),
+  lastName: z.string().min(2, 'Last name must be at least 2 characters').max(50),
+  email: z.string().email('Invalid email address'),
+  phone: z.string().min(10, 'Phone number is required'),
+  address: z.string().optional(),
+  purchaseDate: z.string().optional(),
+  purchasePrice: z.number().positive().optional(),
+  notes: z.string().max(1000).optional(),
+  listingId: z.string().length(24).optional(),
+});
+
+export const updateCustomerSchema = createCustomerSchema.partial();
+
+export const customersQuerySchema = z.object({
+  q: z.string().optional(),
+  page: z.string().optional().transform((val) => (val ? Number(val) : 1)),
+  limit: z.string().optional().transform((val) => (val ? Number(val) : 20)),
+});
+
 // Profile update schema
 export const updateProfileSchema = z.object({
   name: z.string().min(2).max(100).optional(),
@@ -66,5 +88,7 @@ export type CreateListingInput = z.infer<typeof createListingSchema>;
 export type UpdateListingInput = z.infer<typeof updateListingSchema>;
 export type ListingsQuery = z.infer<typeof listingsQuerySchema>;
 export type CreateInquiryInput = z.infer<typeof createInquirySchema>;
+export type CreateCustomerInput = z.infer<typeof createCustomerSchema>;
+export type UpdateCustomerInput = z.infer<typeof updateCustomerSchema>;
+export type CustomersQuery = z.infer<typeof customersQuerySchema>;
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
-

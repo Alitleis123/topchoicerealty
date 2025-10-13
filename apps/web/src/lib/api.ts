@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { User, Listing, Inquiry, PaginatedListings, ListingsQuery } from './types';
+import type { User, Listing, Inquiry, Customer, PaginatedListings, ListingsQuery } from './types';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
@@ -57,6 +57,25 @@ export const inquiriesApi = {
     phone?: string;
     message: string;
   }) => api.post<{ ok: boolean; inquiry: { id: string } }>('/inquiries', data),
+};
+
+// Agents (public)
+export const agentsApi = {
+  getAll: () => api.get<{ agents: User[] }>('/agents'),
+};
+
+// Customers
+export const customersApi = {
+  getAll: (query?: { q?: string }) =>
+    api.get<{ customers: Customer[] }>('/agent/customers', { params: query }),
+
+  create: (data: Partial<Customer>) =>
+    api.post<{ customer: Customer }>('/agent/customers', data),
+
+  update: (id: string, data: Partial<Customer>) =>
+    api.put<{ customer: Customer }>(`/agent/customers/${id}`, data),
+
+  delete: (id: string) => api.delete(`/agent/customers/${id}`),
 };
 
 export default api;

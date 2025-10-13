@@ -24,6 +24,9 @@ export function Navbar() {
               <Link to="/listings" className="text-gray-300 hover:text-gold px-3 py-2 text-sm font-medium transition-colors">
                 LISTINGS
               </Link>
+              <Link to="/agents" className="text-gray-300 hover:text-gold px-3 py-2 text-sm font-medium transition-colors">
+                AGENTS
+              </Link>
             </div>
           </div>
 
@@ -33,12 +36,17 @@ export function Navbar() {
                 <span className="text-sm text-gray-300">Hello, {user?.name}</span>
                 <Link to="/dashboard">
                   <Button size="sm" variant="outline">
-                    Dashboard
+                    📊 Dashboard
+                  </Button>
+                </Link>
+                <Link to="/customers">
+                  <Button size="sm" variant="outline">
+                    👥 Customers
                   </Button>
                 </Link>
                 <Link to="/profile">
                   <Button size="sm" variant="outline">
-                    Profile
+                    👤 Profile
                   </Button>
                 </Link>
                 <Button size="sm" variant="secondary" onClick={logout}>

@@ -120,11 +120,11 @@ export function Listings() {
         </div>
 
         {/* Results */}
-        {isLoading ? (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-gold mx-auto"></div>
-            <p className="mt-4 text-gray-700 font-medium">Loading listings...</p>
-          </div>
+          {isLoading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-gold mx-auto"></div>
+              <p className="mt-4 text-gray-700 font-medium animate-pulse">Loading listings...</p>
+            </div>
         ) : data?.data.listings.length === 0 ? (
           <div className="text-center py-12 bg-white rounded-xl shadow-lg border-2 border-gold/10">
             <svg
@@ -151,11 +151,16 @@ export function Listings() {
               📊 Showing {data?.data.listings.length} of {data?.data.pagination.total} listings
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {data?.data.listings.map((listing) => (
-                <ListingCard key={listing._id} listing={listing} />
-              ))}
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                {data?.data.listings.map((listing, index) => (
+                  <div 
+                    key={listing._id} 
+                    className={`animate-fade-in-up animate-delay-${(index % 3 + 1) * 100}`}
+                  >
+                    <ListingCard listing={listing} />
+                  </div>
+                ))}
+              </div>
 
             {/* Pagination */}
             {data && data.data.pagination.totalPages > 1 && (
