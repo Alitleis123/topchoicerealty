@@ -62,10 +62,10 @@ nano apps/api/.env
 
 ```bash
 # MongoDB (required)
-MONGODB_URI=mongodb+srv://user:password@cluster.mongodb.net/topchoicerealty
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/topchoicerealty
 
 # Session Security (required - min 32 characters)
-SESSION_SECRET=your-super-secret-session-key-change-this-in-production-min-32-chars
+SESSION_SECRET=your-super-secret-session-key-change-this-in-production
 
 # Server Configuration
 PORT=8080
@@ -78,14 +78,14 @@ SMTP_HOST=smtp.sendgrid.net
 SMTP_PORT=587
 SMTP_USER=apikey
 SMTP_PASS=your-sendgrid-api-key
-SMTP_FROM=noreply@topchoicerealty.com
+SMTP_FROM=noreply@yourdomain.com
 
 # OR Resend
 # SMTP_HOST=smtp.resend.com
 # SMTP_PORT=587
 # SMTP_USER=resend
 # SMTP_PASS=your-resend-api-key
-# SMTP_FROM=noreply@topchoicerealty.com
+# SMTP_FROM=noreply@yourdomain.com
 ```
 
 ### 4. Database Setup
@@ -233,5 +233,5 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 📞 Support
 
-For support, email support@topchoicerealty.com or create an issue in the repository.
+For support, create an issue in the repository.
 
