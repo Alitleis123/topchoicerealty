@@ -7,7 +7,32 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 10000, // 10 second timeout
 });
+
+// Request interceptor
+api.interceptors.request.use(
+  (config) => {
+    // Add timestamp to prevent caching issues
+    if (config.method === 'get') {
+      config.params = { ...config.params, _t: Date.now() };
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Response interceptor
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Log errors in development
+    if (import.meta.env.DEV) {
+      console.error('API Error:', error);
+    }
+    return Promise.reject(error);
+  }
+);
 
 // Auth
 export const authApi = {

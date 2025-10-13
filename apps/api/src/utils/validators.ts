@@ -1,22 +1,28 @@
 import { z } from 'zod';
+import { 
+  sanitizedStringSchema, 
+  sanitizedEmailSchema, 
+  sanitizedPhoneSchema,
+  validateObjectId 
+} from './sanitize.js';
 
 // Auth schemas
 export const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+  email: sanitizedEmailSchema,
+  password: z.string().min(8, 'Password must be at least 8 characters').max(128),
 });
 
 // Listing schemas
 export const createListingSchema = z.object({
-  title: z.string().min(5, 'Title must be at least 5 characters').max(200),
-  address: z.string().min(5, 'Address is required'),
-  neighborhood: z.string().min(2, 'Neighborhood is required'),
-  price: z.number().positive('Price must be positive'),
-  beds: z.number().int().min(0, 'Beds must be non-negative'),
-  baths: z.number().min(0, 'Baths must be non-negative'),
-  sqft: z.number().positive('Square footage must be positive'),
-  description: z.string().min(20, 'Description must be at least 20 characters').max(5000),
-  imageUrls: z.array(z.string().url()).min(1, 'At least one image is required'),
+  title: sanitizedStringSchema.min(5).max(200),
+  address: sanitizedStringSchema.min(5),
+  neighborhood: sanitizedStringSchema.min(2),
+  price: z.number().positive().max(1000000000), // Max $1B
+  beds: z.number().int().min(0).max(20),
+  baths: z.number().min(0).max(20),
+  sqft: z.number().positive().max(100000), // Max 100k sqft
+  description: sanitizedStringSchema.min(20).max(5000),
+  imageUrls: z.array(z.string().url()).min(1).max(20),
   status: z.enum(['active', 'pending', 'sold']).default('active'),
 });
 
@@ -24,7 +30,7 @@ export const updateListingSchema = createListingSchema.partial();
 
 export const updateListingStatusSchema = z.object({
   status: z.enum(['active', 'pending', 'sold']),
-  customerId: z.string().optional(),
+  customerId: z.string().refine(validateObjectId, 'Invalid customer ID').optional(),
 });
 
 // Query schemas
@@ -41,30 +47,24 @@ export const listingsQuerySchema = z.object({
 
 // Inquiry schema
 export const createInquirySchema = z.object({
-  listingId: z.string().length(24, 'Invalid listing ID'),
-  name: z.string().min(2, 'Name must be at least 2 characters').max(100),
-  email: z.string().email('Invalid email address'),
-  phone: z
-    .string()
-    .optional()
-    .refine(
-      (val) => !val || /^[\d\s\-\+\(\)]+$/.test(val),
-      'Invalid phone number format'
-    ),
-  message: z.string().min(10, 'Message must be at least 10 characters').max(2000),
+  listingId: z.string().refine(validateObjectId, 'Invalid listing ID'),
+  name: sanitizedStringSchema.min(2).max(100),
+  email: sanitizedEmailSchema,
+  phone: sanitizedPhoneSchema.optional(),
+  message: sanitizedStringSchema.min(10).max(2000),
 });
 
 // Customer schemas
 export const createCustomerSchema = z.object({
-  firstName: z.string().min(2, 'First name must be at least 2 characters').max(50),
-  lastName: z.string().min(2, 'Last name must be at least 2 characters').max(50),
-  email: z.string().email('Invalid email address'),
-  phone: z.string().min(10, 'Phone number is required'),
-  address: z.string().optional(),
-  purchaseDate: z.string().optional(),
-  purchasePrice: z.number().positive().optional(),
-  notes: z.string().max(1000).optional(),
-  listingId: z.string().length(24).optional(),
+  firstName: sanitizedStringSchema.min(2).max(50),
+  lastName: sanitizedStringSchema.min(2).max(50),
+  email: sanitizedEmailSchema,
+  phone: sanitizedPhoneSchema,
+  address: sanitizedStringSchema.max(200).optional(),
+  purchaseDate: z.string().datetime().optional(),
+  purchasePrice: z.number().positive().max(1000000000).optional(),
+  notes: sanitizedStringSchema.max(1000).optional(),
+  listingId: z.string().refine(validateObjectId, 'Invalid listing ID').optional(),
 });
 
 export const updateCustomerSchema = createCustomerSchema.partial();
@@ -77,10 +77,10 @@ export const customersQuerySchema = z.object({
 
 // Profile update schema
 export const updateProfileSchema = z.object({
-  name: z.string().min(2).max(100).optional(),
-  phone: z.string().optional(),
+  name: sanitizedStringSchema.min(2).max(100).optional(),
+  phone: sanitizedPhoneSchema.optional(),
   photoUrl: z.string().url().optional(),
-  bio: z.string().max(500).optional(),
+  bio: sanitizedStringSchema.max(500).optional(),
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
