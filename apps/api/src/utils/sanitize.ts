@@ -30,10 +30,15 @@ export function sanitizePhone(phone: string): string {
 }
 
 // Create a sanitization schema for common inputs
-export const sanitizedStringSchema = z
-  .string()
-  .transform(sanitizeInput)
-  .refine((val) => val.length > 0, 'Input cannot be empty');
+export function sanitizedStringSchema(min = 1, max = 10000) {
+  return z.preprocess(
+    (val) => {
+      if (val === undefined || val === null) return val;
+      return sanitizeInput(String(val));
+    },
+    z.string().min(min).max(max)
+  );
+}
 
 export const sanitizedEmailSchema = z
   .string()

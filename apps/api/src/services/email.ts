@@ -4,26 +4,34 @@ import { IInquiry } from '../models/Inquiry.js';
 import { IListing } from '../models/Listing.js';
 import { IUser } from '../models/User.js';
 
+const emailDisabled = env.EMAIL_DISABLED === 'true';
+
 // Create transporter
-const transporter = nodemailer.createTransport({
-  host: env.SMTP_HOST,
-  port: Number(env.SMTP_PORT),
-  secure: Number(env.SMTP_PORT) === 465,
-  auth: {
-    user: env.SMTP_USER,
-    pass: env.SMTP_PASS,
-  },
-});
+const transporter = emailDisabled
+  ? null
+  : nodemailer.createTransport({
+      host: env.SMTP_HOST,
+      port: Number(env.SMTP_PORT),
+      secure: Number(env.SMTP_PORT) === 465,
+      auth: {
+        user: env.SMTP_USER,
+        pass: env.SMTP_PASS,
+      },
+    });
 
 // Verify connection on startup (in dev mode)
-if (env.NODE_ENV === 'development') {
-  transporter.verify((error) => {
+if (!emailDisabled && env.NODE_ENV === 'development') {
+  transporter?.verify((error) => {
     if (error) {
       console.error('❌ Email transporter error:', error);
     } else {
       console.log('✅ Email server ready');
     }
   });
+}
+
+if (emailDisabled) {
+  console.warn('⚠️ Email disabled via EMAIL_DISABLED=true');
 }
 
 function generateInquiryEmailHtml(
@@ -202,10 +210,17 @@ export async function sendInquiryEmail(
   listing: IListing,
   agent: IUser
 ): Promise<void> {
+  if (emailDisabled) {
+    if (env.NODE_ENV === 'development') {
+      console.log('📧 Email skipped (EMAIL_DISABLED=true) for:', agent.email);
+    }
+    return;
+  }
+
   const subject = `New Inquiry: ${listing.title}`;
   const html = generateInquiryEmailHtml(inquiry, listing, agent);
 
-  await transporter.sendMail({
+  await transporter?.sendMail({
     from: env.SMTP_FROM,
     to: agent.email,
     subject,
@@ -219,4 +234,3 @@ export async function sendInquiryEmail(
     console.log('Subject:', subject);
   }
 }
-

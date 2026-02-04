@@ -14,14 +14,14 @@ export const loginSchema = z.object({
 
 // Listing schemas
 export const createListingSchema = z.object({
-  title: sanitizedStringSchema.min(5).max(200),
-  address: sanitizedStringSchema.min(5),
-  neighborhood: sanitizedStringSchema.min(2),
+  title: sanitizedStringSchema(5, 200),
+  address: sanitizedStringSchema(5),
+  neighborhood: sanitizedStringSchema(2),
   price: z.number().positive().max(1000000000), // Max $1B
   beds: z.number().int().min(0).max(20),
   baths: z.number().min(0).max(20),
   sqft: z.number().positive().max(100000), // Max 100k sqft
-  description: sanitizedStringSchema.min(20).max(5000),
+  description: sanitizedStringSchema(20, 5000),
   imageUrls: z.array(z.string().url()).min(1).max(20),
   status: z.enum(['active', 'pending', 'sold']).default('active'),
 });
@@ -48,22 +48,22 @@ export const listingsQuerySchema = z.object({
 // Inquiry schema
 export const createInquirySchema = z.object({
   listingId: z.string().refine(validateObjectId, 'Invalid listing ID'),
-  name: sanitizedStringSchema.min(2).max(100),
+  name: sanitizedStringSchema(2, 100),
   email: sanitizedEmailSchema,
   phone: sanitizedPhoneSchema.optional(),
-  message: sanitizedStringSchema.min(10).max(2000),
+  message: sanitizedStringSchema(10, 2000),
 });
 
 // Customer schemas
 export const createCustomerSchema = z.object({
-  firstName: sanitizedStringSchema.min(2).max(50),
-  lastName: sanitizedStringSchema.min(2).max(50),
+  firstName: sanitizedStringSchema(2, 50),
+  lastName: sanitizedStringSchema(2, 50),
   email: sanitizedEmailSchema,
   phone: sanitizedPhoneSchema,
-  address: sanitizedStringSchema.max(200).optional(),
+  address: sanitizedStringSchema(1, 200).optional(),
   purchaseDate: z.string().datetime().optional(),
   purchasePrice: z.number().positive().max(1000000000).optional(),
-  notes: sanitizedStringSchema.max(1000).optional(),
+  notes: sanitizedStringSchema(1, 1000).optional(),
   listingId: z.string().refine(validateObjectId, 'Invalid listing ID').optional(),
 });
 
@@ -77,10 +77,10 @@ export const customersQuerySchema = z.object({
 
 // Profile update schema
 export const updateProfileSchema = z.object({
-  name: sanitizedStringSchema.min(2).max(100).optional(),
+  name: sanitizedStringSchema(2, 100).optional(),
   phone: sanitizedPhoneSchema.optional(),
   photoUrl: z.string().url().optional(),
-  bio: sanitizedStringSchema.max(500).optional(),
+  bio: sanitizedStringSchema(1, 500).optional(),
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
